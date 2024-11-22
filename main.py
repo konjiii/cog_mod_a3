@@ -11,9 +11,9 @@ class Hanoi(ACTR):
     def mem_add(self, mem, item):
         # add the item to the front of memory
         if mem == "_":
-            mem = str(item)
+            mem = item
         else:
-            mem = str(item) + "," + mem
+            mem = mem + "," + item
 
         # modify the memory buffer
         self.memory.modify(mem=mem)
@@ -21,19 +21,20 @@ class Hanoi(ACTR):
     def mem_retrieve(self, mem):
         # get the first entry from the memory
         if mem.count(",") > 0:
-            hd, tl = mem.split(",", 1)
+            mem, item = mem.rsplit(",", 1)
         else:
-            hd = mem
-            tl = "_"
+            item = mem
+            mem = "_"
         # get the action and dest from the first entry
-        action, dest = hd.split("|")
+        action, dest = item.split("|")
 
         # modify the memory buffer to remove the entry from memory
-        self.memory.modify(mem=tl)
+        self.memory.modify(mem=mem)
 
         return action, dest
 
     def move(goal="discs:?discs discs:!CCC", memory="mem:?mem"):
+        print(mem)
         # get the current subgoal from memory
         action, dest = self.mem_retrieve(mem)
         a_idx = int(action) - 1
@@ -90,5 +91,5 @@ print("Peg A has disks {}, peg B has disks {}, peg C has disks {}.\n".format(a, 
 # set the initial disc confguration
 model.goal.set("discs:{}".format(discs))
 # set the subgoals needed to finish the game
-model.memory.set("mem:1|C,2|C,3|C")
+model.memory.set("mem:3|C,2|C,1|C")
 model.run()
