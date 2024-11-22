@@ -1,8 +1,6 @@
 import ccm
 from ccm.lib.actr import *
 
-log = ccm.log(html=True)
-
 
 class Hanoi(ACTR):
     goal = Buffer()
