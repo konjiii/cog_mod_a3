@@ -15,28 +15,42 @@ class Hanoi(ACTR):
         else:
             mem = mem + "," + item
 
+        # if there are too many subgoals to memorise, forget the oldest subgoal
+        while mem.count(",") + 1 > 7:
+            _, mem = mem.split(",", 1)
+
         # modify the memory buffer
         self.memory.modify(mem=mem)
 
-    def mem_retrieve(self, mem):
+    def mem_get(self, mem):
         # get the first entry from the memory
         if mem.count(",") > 0:
-            mem, item = mem.rsplit(",", 1)
+            _, item = mem.rsplit(",", 1)
         else:
             item = mem
-            mem = "_"
         # get the action and dest from the first entry
         action, dest = item.split("|")
 
-        # modify the memory buffer to remove the entry from memory
-        self.memory.modify(mem=mem)
-
         return action, dest
 
+    def mem_remove(self, mem, discs):
+        # get the first entry from the memory
+        if mem.count(",") > 0:
+            mem, _ = mem.rsplit(",", 1)
+        else:
+            mem = "_"
+            # if the goal is not yet achieved and there are no subgoals in memory
+            # add the important subgoal that has yet to be achieved to memory
+            for disc, loc in enumerate(discs):
+                if loc != "C":
+                    mem = "{}|C".format(disc + 1)
+                    break
+
+        self.memory.modify(mem=mem)
+
     def move(goal="discs:?discs discs:!CCC", memory="mem:?mem"):
-        print(mem)
         # get the current subgoal from memory
-        action, dest = self.mem_retrieve(mem)
+        action, dest = self.mem_get(mem)
         a_idx = int(action) - 1
 
         # if the disc is on the destination already don't do anything and go
@@ -73,6 +87,11 @@ class Hanoi(ACTR):
                         A, B, C
                     )
                 )
+                # remove the current achieved subgoal from memory
+                self.mem_remove(mem, discs)
+        else:
+            # if the subgoal was already satisfied remove it from memory
+            self.mem_remove(mem, discs)
 
     def final(goal="discs:CCC"):
         goal.clear()
