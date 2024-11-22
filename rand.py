@@ -52,7 +52,7 @@ class Hanoi(ACTR):
     def ab(goal="A:?a B:?b C:?c A:!_ C:!123", imaginal="Prev:!BA"):
         # check if the move is legal
         if b == "_" or a[-1] > b[-1]:
-            print("Disk {} was moved to peg b.").format(a[-1])
+            print("Disk {} was moved to peg B.").format(a[-1])
             # move the disc and update the goal and imaginal
             a, b = self.move(a, b)
             goal.modify(A=a, B=b)
@@ -61,7 +61,7 @@ class Hanoi(ACTR):
 
     def ac(goal="A:?a B:?b C:?c A:!_ C:!123", imaginal="Prev:!CA"):
         if c == "_" or a[-1] > c[-1]:
-            print("Disk {} was moved to peg c.").format(a[-1])
+            print("Disk {} was moved to peg C.").format(a[-1])
             a, c = self.move(a, c)
             goal.modify(A=a, C=c)
             imaginal.modify(Prev="AC")
@@ -69,7 +69,7 @@ class Hanoi(ACTR):
 
     def ba(goal="A:?a B:?b C:?c B:!_ C:!123", imaginal="Prev:!AB"):
         if a == "_" or b[-1] > a[-1]:
-            print("Disk {} was moved to peg a.").format(b[-1])
+            print("Disk {} was moved to peg A.").format(b[-1])
             b, a = self.move(b, a)
             goal.modify(B=b, A=a)
             imaginal.modify(Prev="BA")
@@ -77,7 +77,7 @@ class Hanoi(ACTR):
 
     def bc(goal="A:?a B:?b C:?c B:!_ C:!123", imaginal="Prev:!CB"):
         if c == "_" or b[-1] > c[-1]:
-            print("Disk {} was moved to peg c.").format(b[-1])
+            print("Disk {} was moved to peg C.").format(b[-1])
             b, c = self.move(b, c)
             goal.modify(B=b, C=c)
             imaginal.modify(Prev="BC")
@@ -85,7 +85,7 @@ class Hanoi(ACTR):
 
     def ca(goal="A:?a B:?b C:?c C:!_ C:!123", imaginal="Prev:!AC"):
         if a == "_" or c[-1] > a[-1]:
-            print("Disk {} was moved to peg a.").format(c[-1])
+            print("Disk {} was moved to peg A.").format(c[-1])
             c, a = self.move(c, a)
             goal.modify(C=c, A=a)
             imaginal.modify(Prev="CA")
@@ -93,7 +93,7 @@ class Hanoi(ACTR):
 
     def cb(goal="A:?a B:?b C:?c C:!_ C:!123", imaginal="Prev:!BC"):
         if b == "_" or c[-1] > b[-1]:
-            print("Disk {} was moved to peg b.").format(c[-1])
+            print("Disk {} was moved to peg B.").format(c[-1])
             c, b = self.move(c, b)
             goal.modify(C=c, B=b)
             imaginal.modify(Prev="CB")
